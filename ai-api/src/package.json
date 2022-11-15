@@ -1,0 +1,15 @@
+{
+    "name": "regression-learning",
+    "version": "1.0.0",
+    "dependencies": {
+        "express": "4.18.2",
+        "mysql2":"2.3.3"
+    },
+    "description": "",
+    "main": "src/main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Matias M. Gonzalez",
+    "license": "GPL3"
+}

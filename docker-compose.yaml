@@ -1,0 +1,45 @@
+services:
+  aiapi:
+    build: ./ai-api
+    image: mmatiasg/node-ai-api
+    container_name: ai-api
+    ports: 
+      - 3000:3000
+    networks:
+      - mysql_network_bridge
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["node", "main_map.js"]
+
+  db:
+    image: mysql:8.0.31
+    container_name: mysql_db
+    volumes:
+      - mysqldb:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - mysql_network_bridge
+    # allow the container to be discover
+    networks:
+      mysql_network_bridge:
+        aliases:
+          - mysql-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3306"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  mysqldb:
+    external: true
+    name: mysqldb
+
+networks:
+  mysql_network_bridge:
+    external: true
+    name: mysql_network_bridge
