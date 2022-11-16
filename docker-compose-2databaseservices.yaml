@@ -35,36 +35,36 @@ services:
       timeout: 10s
       retries: 5
 
-  # db2:
-  #     build: ./database
-  #     image: mysql_restored
-  #     container_name: mysql_db2
-  #     volumes:
-  #       - mysqldb2:/var/lib/mysql
-  #     ports:
-  #       - 3307:3307
-  #     environment:
-  #       MYSQL_ROOT_PASSWORD: root
-  #     networks:
-  #       - mysql_network_bridge
-  #     # allow the container to be discover
-  #     networks:
-  #       mysql_network_bridge:
-  #         aliases:
-  #           - mysql-service2
-  #     healthcheck:
-  #       test: ["CMD", "curl", "-f", "http://localhost:3307"]
-  #       interval: 5s
-  #       timeout: 10s
-  #       retries: 5
+  db2:
+      build: ./database
+      image: mysql_restored
+      container_name: mysql_db2
+      volumes:
+        - mysqldb2:/var/lib/mysql
+      ports:
+        - 3307:3307
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+      networks:
+        - mysql_network_bridge
+      # allow the container to be discover
+      networks:
+        mysql_network_bridge:
+          aliases:
+            - mysql-service2
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:3307"]
+        interval: 5s
+        timeout: 10s
+        retries: 5
 
 volumes:
   mysqldb:
     external: true
     name: mysqldb
-  # mysqldb2:
-  #   external: true
-  #   name: mysqldb2
+  mysqldb2:
+    external: true
+    name: mysqldb2
 
 networks:
   mysql_network_bridge:
