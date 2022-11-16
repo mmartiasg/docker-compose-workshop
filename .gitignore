@@ -105,6 +105,7 @@ dist
 
 # macos file system attributes
 .DS_Store
+*.DS_Store
 ._.DS_Store
 **/.DS_Store
 **/._.DS_Store
