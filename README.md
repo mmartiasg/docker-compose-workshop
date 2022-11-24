@@ -35,7 +35,7 @@ Retrain
 curl --request GET http://localhost:3000/retrain\?epochs\=50000
 ```
 
-Comandos para hacerlo "a mano"
+**Comandos para hacerlo "a mano"
 
 Desde el directorio docker-compose-workshop
 
