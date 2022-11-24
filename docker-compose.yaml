@@ -14,8 +14,8 @@ services:
 
   db:
     build: ./database
-    image: mysql_restored
-    container_name: mysql_db
+    image: mmatiasg/mysql
+    container_name: mysql_db_service
     volumes:
       - mysqldb:/var/lib/mysql
     ports:
