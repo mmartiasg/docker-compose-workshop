@@ -6,12 +6,18 @@ let base_path = "../datasets"
 let train_file_path = base_path+"/train_data.csv"
 let val_file_path = base_path+"/val_data.csv"
 
-// DATA STRUCTURE
-// features
-// fixed_acidity	volatile_acidity	citric_acid	residual_sugar	chlorides	free_sulfur_dioxide	total_sulfur_dioxide	density	pH	sulphates	alcohol
+const express = require('express')
+const app = express()
+const port = 3000
 
-//target index 11
-// quality
+const mysql = require('mysql2')
+const connection = mysql.createConnection({
+  host: 'mysql-service',
+  user: 'root',
+  port: 3306,
+  password: 'root',
+  database: 'model'
+})
 
 //feature a seleccionar 10 seria alcohol
 const feature_index = 10
@@ -35,36 +41,32 @@ const val_x = val_data.map((x)=>x[feature_index])
 const val_y = val_data.map((x)=>x[target_index])
 
 model.training_map(train_x, train_y, 5000, true)
-
 console.log("RESULTS")
 console.log("BASELINE EVALUACION MSE VALIDATION DATA: "+model.eval_map(val_x, val_y))
 console.log("EVAL EVALUACION MSE VALIDATION DATA: "+baseline_model.eval_map(val_x, val_y))
 
-for (let i=0; i<15; i++){
-    console.log("Features: "+val_x[i])
-    console.log("PREDICTION: "+model.predict(val_x[i]))
-    console.log("REAL VALUE: "+val_y[i])
-    console.log("---------------------------SAMPLE: ["+i+"]--------------------------------------")
-}
-
-const mysql = require('mysql2')
-const connection = mysql.createConnection({
-  host: 'mysql-service',
-  user: 'root',
-  port: 3306,
-  password: 'root',
-  database: 'model'
-})
-
-const express = require('express')
-const app = express()
-const port = 3000
-
+//Endpoints
 app.get('/predict', (req, res) => {
   model_input = parseFloat(req.query.alcohol, 10)
   prediction = model.predict(model_input)
+  
+  if (model_input<0){
+    res.send(`fuera de rango: ${model_input}`)
+  }
+
+  if (model_input>20){
+    res.send(`fuera de rango: ${model_input}`)
+  }
+
+  if (prediction>10){
+    prediction = 10
+  }
+
+  if (prediction<0){
+    prediction = 0
+  }
+
   res.send(`prediction: ${prediction}`)
-  connection.connect()
   connection.query(`INSERT into model.requests (model, param_index, tita1, tita2, value, results) values("regression", ${feature_index}, ${model.tita1}, ${model.tita2}, ${model_input}, ${prediction})`, (err, rows, fields) => {
     if (err) throw err
   })
@@ -77,7 +79,6 @@ app.get('/retrain', (req, res) => {
   eval_mse = model.eval_map(val_x, val_y)
 
   res.send(`values after train tita1: ${model.tita1} - tita2: ${model.tita2} - eval in validation: ${eval_mse}`)
-
   console.log("RESULTS")
   console.log("BASELINE EVALUACION MSE VALIDATION DATA: "+eval_mse)
 

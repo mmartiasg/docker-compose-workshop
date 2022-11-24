@@ -110,3 +110,4 @@ dist
 **/.DS_Store
 **/._.DS_Store
 ai-api/datasets/.DS_Store
+ai-api/src/.DS_Store
