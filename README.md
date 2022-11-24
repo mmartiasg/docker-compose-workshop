@@ -35,11 +35,11 @@ Retrain
 curl --request GET http://localhost:3000/retrain\?epochs\=50000
 ```
 
-**Comandos para hacerlo "a mano"
+## Comandos para hacerlo "a mano"
 
-Desde el directorio docker-compose-workshop
+**Desde el directorio docker-compose-workshop**
 
-Armar las imagenes 
+#### Armar las imagenes 
 
 API:
 ai-api-image va a ser el nombre que quiero para la imagen
@@ -54,7 +54,7 @@ mysql_db_image nombre de la imagen
 docker build -t mysql_db_image database
 ```
 
-Correr las imagenes en containers
+#### Correr las imagenes en containers
 
 Database 
 ```
@@ -66,7 +66,7 @@ API
 docker run --rm --name ai-api-service --network mysql_network_bridge -p 3000:3000 ai-api-image
 ```
 
-parametros:
+Parametros:
   - --rm : Borra el container al finalizar.
   - --name : Permite darle un nombre en lugar de que docker le asigne uno aleatorio.
   - --network : Permite determinar a que red pertenece el container.
