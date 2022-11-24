@@ -70,8 +70,8 @@ Parametros:
   - --rm : Borra el container al finalizar.
   - --name : Permite darle un nombre en lugar de que docker le asigne uno aleatorio.
   - --network : Permite determinar a que red pertenece el container.
-  - -p : <puerto externo>:<puerto docker> es para exponer un puerto del docker.
-  - --network-alias : permite darle un nombre al container dentro de la red evita tener que adiviar la ip.
-  - -v : es para determinar que volume usar y donde montarlo dentro del container.
+  - -p : Exponer el puerto [puerto externo] : [puerto del container]
+  - --network-alias : Permite darle un nombre al container dentro de la red evita tener que adiviar la ip.
+  - -v : Indicar el volume a usar y donde montarlo dentro del container.
   
  
